@@ -1,20 +1,21 @@
 const loop = function () 
 {
+    //sterownaie mouse
+    if (mouseHold.is === true) {
+        move(mouseHold.x, mouseHold.y);
+    }
 
     // działanie klawisza skoku
-    if (controller.up && player1.jumping == false) 
+    if ((controller.up && player1.jumping == false) || (movePlayer.up && player1.jumping == false)) 
     {
         player1.yVelocity -= jumpHeight * jumpModifier * jumpMode;
         player1.jumping = true;
-
-        //niwelacja odbiajczy
-        jumpModifier = 1;
     }
 
     // działanie klawisza w lewo
-    if (controller.left) {player1.xVelocity -= 0.5; player1.rotationLeft = true; }
+    if (controller.left || movePlayer.left) {player1.xVelocity -= 0.5; player1.rotationLeft = true; }
     // działanie klawisza w prawo
-    if (controller.right) { player1.xVelocity += 0.5; player1.rotationLeft = false; }
+    if (controller.right || movePlayer.right) { player1.xVelocity += 0.5; player1.rotationLeft = false; }
 
     // gravity
     player1.yVelocity += gravity2;
@@ -22,7 +23,7 @@ const loop = function ()
     player1.y += player1.yVelocity * speedModifier * speedMode;
     
     // ! dash
-    dash()
+    dash();
 
     // ! timer 
     timer();
@@ -33,17 +34,15 @@ const loop = function ()
     player1.xVelocity *= swing;
     player1.yVelocity *= swing;
 
-    if (player1.xVelocity < 0.1 && player1.xVelocity > 0.1)
-    {
-        player1.xVelocity = 0;
-    }
 
     // Ground
     if (player1.y > heightMap - 14 - 16 - 32) 
     {
-        player1.jumping = false;
+        // player1.jumping = false;
         player1.y = heightMap - 14 - 16 - 32;
-        player1.yVelocity = 0;
+        // player1.yVelocity = 0;
+        Collision()
+        //TODO fix aby tylko collision
     }
 
     groundItems("cube1.y");
@@ -114,3 +113,56 @@ mode.addEventListener("submit", (e) =>
     level = level - 1;
     Win();
 });
+
+// Sterowanie mouse
+c.addEventListener('touchstart', e => {
+    mouseHold.x = e.touches[0].clientX - rect.left;
+    mouseHold.y = e.touches[0].clientY - rect.top;
+    mouseHold.is = true;
+});
+
+window.addEventListener('touchend', e => {
+    if (mouseHold.is === true) {
+        move(mouseHold.x, mouseHold.y);
+        mouseHold.x = 0;
+        mouseHold.y = 0;
+        mouseHold.is = false;
+        movePlayer.left = false;
+        movePlayer.right = false;
+        movePlayer.up = false;
+    }
+});
+c.addEventListener('touchmove', e => {
+    if (mouseHold.is === true) {
+      move(mouseHold.x, mouseHold.y);
+      mouseHold.x = e.touches[0].clientX - rect.left;
+      mouseHold.y = e.touches[0].clientY - rect.top;
+    }
+
+  });
+function move(x, y) {
+    console.log(x, y)
+    if(x>540 & y>230){
+        movePlayer.right = true;
+        movePlayer.left = false;
+    }
+    else if(x<540 && y>230 && x>400){
+        movePlayer.left = true;
+        movePlayer.right = false;
+    }
+    if(x<150 && y>170){
+        movePlayer.up = true;
+    }
+}
+
+
+if(window.innerWidth<1000){
+    console.log('s');
+    document.body.requestFullscreen();
+}
+window.addEventListener('resize', e => {
+    if(window.innerWidth<1000){
+        console.log('s');
+        document.body.requestFullscreen();
+    }
+})

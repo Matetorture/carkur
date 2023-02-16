@@ -69,3 +69,15 @@ p
 {
     margin-bottom: 20px;
 }
+
+@media (max-width: 1000px) 
+{
+  canvas
+  {
+    width: 648px;
+    height: 320px;
+  }
+  nav{
+    display: none;
+  }
+}

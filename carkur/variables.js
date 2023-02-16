@@ -1,4 +1,5 @@
-const canvas = document.querySelector("canvas").getContext("2d");
+const c = document.querySelector("canvas");
+const canvas = c.getContext("2d");
 
 var heightMap = 800;
 var widthMap = 1620;
@@ -101,6 +102,20 @@ const controller =
     }
   }
 }
+
+//Mouse sterowanie
+const rect = c.getBoundingClientRect();
+var mouseHold = {
+    is: false,
+    x: 0,
+    y: 0
+}
+movePlayer = {
+    left: false,
+    right: false,
+    up: false
+}
+
 
 
 // ! LEVELS

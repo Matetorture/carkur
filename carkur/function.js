@@ -1,5 +1,9 @@
-function Colision()
+function Collision()
 {
+    //niwelacja odbiajczy
+    jumpModifier = 1;
+
+
     gravity2=0;
     player1.yVelocity = 0;
     player1.jumping = false;
@@ -7,13 +11,13 @@ function Colision()
 
 function JumpPad()
 {
-    Colision();
+    Collision();
     jumpModifier = 2.5;
 }
 
 function Speed()
 {
-    Colision();
+    Collision();
     speedModifier = 4;
 }
 
@@ -25,7 +29,7 @@ function Dead()
 
 function Win()
 {
-    Colision();
+    Collision();
     dialogW.open();
     level++;
     player1.y = heightMap - 100;
@@ -160,15 +164,16 @@ function dash() // todo podskok w trakcie dasha
         // działanie w lewo
         if (player1.rotationLeft == true)
         {
-            player1.xVelocity -= 30;
-            player1.yVelocity -= 15; 
+            player1.xVelocity -= 20;
+            player1.yVelocity -= 20;
+            player1.jumping = true; 
         }
         // działanie w prawo
         else if (player1.rotationLeft == false) 
         {
-            player1.yVelocity -= jumpHeight * jumpModifier * jumpMode;
             player1.xVelocity += 20;
-            player1.jumping = true; 
+            player1.yVelocity -= 20;
+            player1.jumping = true;
         }
     }
     if (timeDeltaDash/dashCooldown <= 1)
