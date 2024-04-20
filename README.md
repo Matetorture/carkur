@@ -12,4 +12,4 @@ Carkur is a 2D platform game that uses arcade elements.
 [Carkur dev version (working in progress)](https://webtochange.github.io/carkur)
 
 ## Technologies
-Project written in vanilla JavaScript using Canvas
+Project written in JavaScript using Canvas
